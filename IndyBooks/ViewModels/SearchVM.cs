@@ -9,8 +9,15 @@ namespace IndyBooks.ViewModels
 
         [Display(Name = "Half-Price Sale: ")]
         public Boolean HalfPriceSale { get; set; }
-        //TODO: Add properties with Display annotation needed for searching
+        //DONE: Add properties with Display annotation needed for searching
         
+        [Display(Name = "Author's Last Name: " )]
+        public String Name {get; set;} = "";
 
+        [Display(Name = "Minimum Price: ")]
+        public decimal MinPrice {get; set;} 
+
+        [Display(Name = "Maximum Price: ")]
+        public decimal MaxPrice {get; set;} 
     }
 }

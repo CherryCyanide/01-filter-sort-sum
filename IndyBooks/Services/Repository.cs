@@ -13,9 +13,11 @@ public class Repository
     }   
     //Property to return ALL Books on sale (price greater than 90) with the price reduced by 50%
     public decimal sale{ get; set; } = 0.5m; //percentage off for the sale
-    public int SaleLimit { get;set; } = 90; // the item price above this amount will be on sale
-    //TODO: complete the SaleResults property to show reduced-priced books
-    public IEnumerable<Book> SaleResults = new List<Book>(); 
+    private int SaleLimit { get;set; } = 90; // the item price above this amount will be on sale
+    //DONE: complete the SaleResults property to show reduced-priced books
+    public IEnumerable<Book> SaleResults => _db.Books
+        .Where( s => s.Price >= SaleLimit);
+
     //TODO: complete method to return search results based on the given SearchVM criteria
     public IEnumerable<Book> searchResults(SearchVM searchVM) {
             IQueryable<Book> foundBooks = _db.Books; // start with entire collection

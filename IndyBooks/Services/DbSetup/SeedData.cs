@@ -14,10 +14,24 @@ namespace IndyBooks.Services
             ArgumentNullException.ThrowIfNull(dbContext, nameof(dbContext));
             if (dbContext.Books.Any()) return;
 
-            //  TODO: Create two additional books in the seed data 
+            //  DONE : Create two additional books in the seed data 
             //         then update the database using dotnet-ef database commands
             //
             var Books = new Book[] {
+                new Book
+                {
+                    Title = "I Have No Mouth and I Must Scream",
+                    Author = "Harlan Ellison",
+                    Price = 2.00M,
+                    Year = "1967"
+                },
+                new Book
+                {
+                    Title = "No Longer Human",
+                    Author = "Osamu Dazai",
+                    Price = 22.00M,
+                    Year = "1948"
+                },
                 new Book
                 {
                     Title = "Pride and Prejudice",
