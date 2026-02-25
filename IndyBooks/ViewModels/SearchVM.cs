@@ -12,7 +12,7 @@ namespace IndyBooks.ViewModels
         //DONE: Add properties with Display annotation needed for searching
         
         [Display(Name = "Author's Last Name: " )]
-        public String Name {get; set;} = "";
+        public String Author {get; set;} = "";
 
         [Display(Name = "Minimum Price: ")]
         public decimal MinPrice {get; set;} 

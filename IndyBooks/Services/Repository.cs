@@ -13,12 +13,18 @@ public class Repository
     }   
     //Property to return ALL Books on sale (price greater than 90) with the price reduced by 50%
     public decimal sale{ get; set; } = 0.5m; //percentage off for the sale
-    private int SaleLimit { get;set; } = 90; // the item price above this amount will be on sale
+    public int SaleLimit { get;set; } = 90; // the item price above this amount will be on sale
     //DONE: complete the SaleResults property to show reduced-priced books
     public IEnumerable<Book> SaleResults => _db.Books
-        .Where( s => s.Price >= SaleLimit);
+        .Where( s => s.Price >= SaleLimit)
+        .Select( s => new Book {
+            Title = s.Title,
+            Author = s.Author,
+            Year = s.Year,
+            Price = s.Price * sale 
+        });
 
-    //TODO: complete method to return search results based on the given SearchVM criteria
+    //DONE: complete method to return search results based on the given SearchVM criteria
     public IEnumerable<Book> searchResults(SearchVM searchVM) {
             IQueryable<Book> foundBooks = _db.Books; // start with entire collection
 
@@ -27,19 +33,37 @@ public class Repository
             {
                 //Filter the collection by Title which "contains" the given string
                 foundBooks = foundBooks
-                             .Where(b => b.Title.Contains(searchVM.Title));
+                             .Where(b => b.Title.Contains(searchVM.Title))
                 // TODO: Order the results by Title
+                             .OrderBy(b => b.Title);
             }
 
-            //TODO: Add similar logic to filter foundbooks collection by last part of the Author's Name, if given
+            //DONE: Add similar logic to filter foundbooks collection by last part of the Author's Name, if given
             // (HINT: consider the EndsWith() method, also adjust the Search View and ViewModel to add items)
+            
+            if (searchVM.Author != null && searchVM.Author.Trim().Length > 0) {
+                foundBooks = foundBooks
+                             .Where(b => b.Author.EndsWith(searchVM.Author));
+            }
 
-            //TODO: Add similar logic to filter foundbooks collection by price, if given
+            //DONE: Add similar logic to filter foundbooks collection by price, if given
             //       order the results by descending price 
             // (Note: you will need to adjust the Search ViewModel and View to add search fields)
+            if (searchVM.MinPrice > 0) {
+                foundBooks = foundBooks
+                             .Where(b => b.Price >= searchVM.MinPrice);
+            }
 
+            if (searchVM.MaxPrice > 0) {
+                foundBooks = foundBooks
+                             .Where(b => b.Price <= searchVM.MaxPrice);
+            }
 
-            return foundBooks.ToList();
+            var filteredBooks = foundBooks.ToList();
+
+            return (searchVM.MinPrice > 0 || searchVM.MaxPrice > 0)
+                ? filteredBooks.OrderByDescending(b => b.Price).ToList()
+                : filteredBooks.OrderBy(b => b.Title).ToList();
     }   
 
 };     

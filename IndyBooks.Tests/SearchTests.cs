@@ -72,8 +72,39 @@ public class SearchTests
     [Fact]
     public void SearchContainsAllBooksLessThanMaxPrice()
     {
-        
+        // Arrange
+        using var context = new IndyBooksDataContext(_dbContextOptions);
+        repository = new Repository(context);
+        var searchVM = new SearchVM { MaxPrice = 25m };
+
+        // Act
+        var results = repository.searchResults(searchVM).ToList();
+
+        // Assert
+        Assert.Equal(2, results.Count);
+        Assert.All(results, b => Assert.True(b.Price <= 25m));
+        Assert.True(results[0].Price >= results[1].Price);
     }
 
+
+    [Fact]
+    public void SearchContainsBooksWithinMinAndMaxPriceRangeInDescendingOrder()
+    {
+        // Arrange
+        using var context = new IndyBooksDataContext(_dbContextOptions);
+        repository = new Repository(context);
+        var searchVM = new SearchVM { MinPrice = 20m, MaxPrice = 100m };
+
+        // Act
+        var results = repository.searchResults(searchVM).ToList();
+
+        // Assert
+        Assert.Equal(3, results.Count);
+        Assert.Equal("1984", results[0].Title);
+        Assert.Equal("To Know These Days", results[1].Title);
+        Assert.Equal("Two Towers", results[2].Title);
+        Assert.True(results[0].Price >= results[1].Price);
+        Assert.True(results[1].Price >= results[2].Price);
+    }
     
 }

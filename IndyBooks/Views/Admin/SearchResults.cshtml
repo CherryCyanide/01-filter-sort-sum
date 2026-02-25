@@ -39,9 +39,11 @@
     }
     @if(Model.isSale)
         { //TODO: Display the total sale price
-            <tr><td colspan="4" align="right"><b>Total Sale Cost:</b>
-               
-            </td></tr>
+        var totalSalePrice = Model.Books.Sum(b => b.Price);
+            <tr><td colspan="4" align="right"><b>Total Sale Cost:</b> $@totalSalePrice.ToString("0.00")</td>
+               </tr>
+
+            
         }
 </table>
 

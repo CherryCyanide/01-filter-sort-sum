@@ -12,10 +12,28 @@
         <input asp-for="Title" />
         </field>
         <field>
- <!--TODO: Add form fields with labels for the additional search criteria  -->
+ <!--DONE: Add form fields with labels for the additional search criteria  -->
+        <label asp-for="Author"></label>
+        <input asp-for="Author" />
+        </field>
+       
+        <field>
+        <label asp-for="MinPrice"></label>
+        <input asp-for="MinPrice" />
+        </field>
 
+
+        <field>
+        <label asp-for="MaxPrice"></label>
+        <input asp-for="MaxPrice"></label>
+        </field>
+
+
+        <field>
         <label asp-for="HalfPriceSale"></label>
         <input type="checkbox" asp-for="HalfPriceSale" />
+        </field>
+
     </fieldset>
        <input type="submit" value="Search"/>
 </form>
